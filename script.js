@@ -9,9 +9,23 @@ let allStudents = [];
 =================================================== */
 
 async function loadUltimateDashboard() {
+  try {
+    let res = await fetch(API_URL + "?action=students");
+    let text = await res.text();
 
-  let res = await fetch(API_URL + "?action=students");
-  allStudents = await res.json();
+    console.log("RAW RESPONSE:", text);
+
+    allStudents = JSON.parse(text);
+
+    document.getElementById("stats").innerHTML =
+      `<h3>Total Students: ${allStudents.length}</h3>`;
+
+  } catch (err) {
+    alert("API ERROR: " + err);
+    console.log(err);
+  }
+}
+
 
   // ✅ Total Students Count
   document.getElementById("stats").innerHTML = `
