@@ -1,95 +1,84 @@
-// ✅ आपका Google Apps Script URL
-const API_URL =
-  "https://script.google.com/macros/s/AKfycbxGRu4vGWv7lrwzCaNMgLcg2kt99I2hpShCBRWljLiVJYN13gX9LKUSg4IseDIm4gFUMg/exec";
+// ✅ Google Sheet API URL
+const API_URL = "YOUR_SCRIPT_URL_HERE";
 
-let allStudents = [];
+// -----------------------------
+// DASHBOARD LOAD
+// -----------------------------
+async function loadDashboard() {
 
-// ✅ Load Batches Automatically
-window.onload = async function () {
   let res = await fetch(API_URL + "?action=students");
-  let data = await res.json();
+  let students = await res.json();
 
-  allStudents = data;
+  document.getElementById("totalStudents").innerText =
+    "Total Students: " + students.length;
 
-  let batchSet = new Set();
-  data.forEach((s) => batchSet.add(s.batch));
+  let batches = [...new Set(students.map(s => s.batch))];
 
-  let batchSelect = document.getElementById("batchSelect");
+  document.getElementById("totalBatches").innerText =
+    "Total Batches: " + batches.length;
 
-  batchSet.forEach((b) => {
-    let opt = document.createElement("option");
-    opt.value = b;
-    opt.innerText = b;
-    batchSelect.appendChild(opt);
+  // Show Batch List
+  let batchDiv = document.getElementById("batchList");
+  batchDiv.innerHTML = "";
+
+  batches.forEach(batch => {
+    let btn = document.createElement("button");
+    btn.innerText = batch;
+    btn.onclick = () => alert("Open Batch: " + batch);
+    batchDiv.appendChild(btn);
   });
+}
 
-  loadStudents();
-};
+// -----------------------------
+// ADMIN: ADD BATCH
+// -----------------------------
+function addBatch() {
+  let batch = document.getElementById("newBatch").value;
+  alert("Batch Added: " + batch);
+}
 
-// ✅ Load Students Batch Wise
-function loadStudents() {
+// -----------------------------
+// ADMIN: ADD STUDENT
+// -----------------------------
+async function addStudent() {
+
   let batch = document.getElementById("batchSelect").value;
+  let name = document.getElementById("newStudent").value;
 
-  let listDiv = document.getElementById("studentList");
-  listDiv.innerHTML = "";
+  let data = {
+    type: "student",
+    batch: batch,
+    name: name
+  };
 
-  let students = allStudents.filter((s) => s.batch === batch);
-
-  document.getElementById("total").innerText = students.length;
-  document.getElementById("present").innerText = 0;
-  document.getElementById("absent").innerText = students.length;
-
-  students.forEach((stu) => {
-    let div = document.createElement("div");
-    div.className = "studentItem";
-
-    div.innerHTML = `
-      <label>
-        <input type="checkbox" onchange="updateCount()">
-        ${stu.name}
-      </label>
-    `;
-
-    listDiv.appendChild(div);
-  });
-}
-
-// ✅ Update Dashboard Counts
-function updateCount() {
-  let checkboxes = document.querySelectorAll("input[type='checkbox']");
-  let total = checkboxes.length;
-  let present = 0;
-
-  checkboxes.forEach((cb) => {
-    if (cb.checked) present++;
+  await fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify(data)
   });
 
-  document.getElementById("present").innerText = present;
-  document.getElementById("absent").innerText = total - present;
+  alert("Student Added ✅");
 }
 
-// ✅ Save Attendance to Google Sheet
-async function saveAttendance() {
-  let batch = document.getElementById("batchSelect").value;
-  let checkboxes = document.querySelectorAll("input[type='checkbox']");
-  let students = allStudents.filter((s) => s.batch === batch);
+// -----------------------------
+// STUDENT PROFILE REPORT
+// -----------------------------
+async function loadStudentProfile() {
 
-  let today = new Date().toLocaleDateString();
+  let params = new URLSearchParams(window.location.search);
+  let student = params.get("name");
 
-  for (let i = 0; i < students.length; i++) {
-    let status = checkboxes[i].checked ? "Present" : "Absent";
+  document.getElementById("studentName").innerText =
+    "Attendance Report: " + student;
 
-    await fetch(API_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        type: "attendance",
-        date: today,
-        batch: batch,
-        student: students[i].name,
-        status: status,
-      }),
-    });
-  }
+  let res = await fetch(API_URL + "?action=attendance");
+  let records = await res.json();
 
-  alert("✅ Attendance Saved Successfully!");
+  let studentRecords = records.filter(r => r.student === student);
+
+  document.getElementById("studentReport").innerHTML =
+    "Total Days: " + studentRecords.length;
 }
+
+// Auto Load Page
+if (document.getElementById("totalStudents")) loadDashboard();
+if (document.getElementById("studentName")) loadStudentProfile();
