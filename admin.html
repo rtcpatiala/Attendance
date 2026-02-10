@@ -4,18 +4,44 @@
   <title>Admin Panel</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <div class="card">
-  <h2>⚙ Admin Panel</h2>
+  <h1>⚙ Admin Panel</h1>
+  <p>Manage Students Batch Wise</p>
 
-  <a href="manage_batches.html" class="btn">📌 Manage Batches</a>
-  <a href="manage_students.html" class="btn">👨‍🎓 Manage Students</a>
-  <a href="reports.html" class="btn">📅 Monthly Reports</a>
+  <!-- ✅ Batch Dropdown -->
+  <select id="batchSelect" onchange="showAdminStudents()"></select>
 
   <br><br>
-  <a href="index.html" class="btn gray">⬅ Back Dashboard</a>
+
+  <!-- ✅ Add Student Input -->
+  <input id="studentName" placeholder="Enter Student Name">
+
+  <br><br>
+
+  <!-- ✅ Add Button -->
+  <button class="btn" onclick="addStudent()">➕ Add Student</button>
+
+  <br><br>
+
+  <!-- ✅ Student List -->
+  <div id="studentList"></div>
+
+  <br>
+
+  <!-- Back Button -->
+  <a href="index.html" class="btn">⬅ Back Dashboard</a>
 </div>
+
+<!-- ✅ Script -->
+<script src="script.js"></script>
+
+<!-- ✅ Load Admin Batches -->
+<script>
+  loadBatches();   // यही सही function है
+</script>
 
 </body>
 </html>
