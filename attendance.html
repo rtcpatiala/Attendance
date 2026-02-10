@@ -10,31 +10,21 @@
 <div class="card">
   <h1>📋 Take Attendance</h1>
 
-  <!-- ✅ Batch Dropdown -->
+  <h3>Select Batch</h3>
   <select id="batchSelect"></select>
 
-  <br><br>
-
-  <!-- ✅ Students Checkbox List -->
+  <h3>Mark Present Students</h3>
   <div id="attendanceList"></div>
 
   <br>
-
-  <!-- ✅ Save Button -->
-  <button class="btn" onclick="saveAttendance()">
-    ✅ Save Attendance
-  </button>
+  <button class="btn" onclick="saveAttendance()">✅ Save Attendance</button>
 
   <br><br>
-
-  <!-- Back Button -->
   <a href="index.html" class="btn">⬅ Back Dashboard</a>
 </div>
 
-<!-- ✅ Main Script -->
 <script src="script.js"></script>
 
-<!-- ✅ Load Batches Automatically -->
 <script>
   loadAttendanceBatches();
 </script>
