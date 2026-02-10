@@ -145,3 +145,79 @@ async function saveAttendance() {
 
   alert("✅ Attendance Saved Successfully!");
 }
+// ✅ Google Script URL
+const API_URL = "https://script.google.com/macros/s/AKfycbxGRu4vGWv7lrwzCaNMgLcg2kt99I2hpShCBRWljLiVJYN13gX9LKUSg4IseDIm4gFUMg/exec";
+
+let allStudents = [];
+
+// ✅ Load Batch List
+function loadBatches() {
+  fetch(API_URL + "?action=students")
+    .then(res => res.json())
+    .then(data => {
+
+      allStudents = data;
+
+      let batches = [...new Set(data.map(s => s.batch))];
+
+      let batchSelect = document.getElementById("batchSelect");
+      batchSelect.innerHTML = `<option value="">-- Select Batch --</option>`;
+
+      batches.forEach(batch => {
+        batchSelect.innerHTML += `<option value="${batch}">${batch}</option>`;
+      });
+    });
+}
+
+// ✅ Load Students Checkbox
+function loadStudentsForBatch() {
+
+  let batch = document.getElementById("batchSelect").value;
+  let studentDiv = document.getElementById("studentList");
+
+  studentDiv.innerHTML = "";
+
+  let filtered = allStudents.filter(s => s.batch === batch);
+
+  filtered.forEach(stu => {
+    studentDiv.innerHTML += `
+      <label>
+        <input type="checkbox" value="${stu.name}">
+        ${stu.name}
+      </label><br>
+    `;
+  });
+}
+
+// ✅ Save Attendance
+function saveAttendance() {
+
+  let batch = document.getElementById("batchSelect").value;
+
+  if (!batch) {
+    alert("Select Batch First!");
+    return;
+  }
+
+  let checked = document.querySelectorAll("#studentList input:checked");
+
+  let date = new Date().toLocaleDateString();
+
+  checked.forEach(cb => {
+
+    let payload = {
+      type: "attendance",
+      date: date,
+      batch: batch,
+      student: cb.value,
+      status: "Present"
+    };
+
+    fetch(API_URL, {
+      method: "POST",
+      body: JSON.stringify(payload)
+    });
+  });
+
+  alert("Attendance Saved ✅");
+}
