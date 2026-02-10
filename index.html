@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>School Attendance Dashboard</title>
+  <title>Attendance Dashboard</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>🏫 Attendance Dashboard</h1>
+<div class="card">
+  <h1>📊 Attendance Dashboard</h1>
+  <p>All Batches + Students Summary</p>
 
-<div class="cards">
-  <div class="card" id="totalStudents">Total Students: 0</div>
-  <div class="card" id="totalBatches">Total Batches: 0</div>
-  <div class="card" id="presentToday">Present Today: 0</div>
-  <div class="card" id="absentToday">Absent Today: 0</div>
+  <div id="stats"></div>
+
+  <br>
+  <a href="admin.html" class="btn">⚙ Admin Panel</a>
 </div>
 
-<h2>📚 All Batches</h2>
-<div id="batchList"></div>
-
-<br>
-<a href="admin.html" class="btn">⚙ Admin Panel</a>
-
 <script src="script.js"></script>
+<script>
+  loadDashboard();
+</script>
+
 </body>
 </html>
