@@ -149,3 +149,104 @@ async function saveAttendance() {
 
   alert("✅ Attendance Saved Successfully!");
 }
+// ✅ Load Admin Panel
+async function loadAdminPanel() {
+
+  let res = await fetch(API_URL + "?action=students");
+  let data = await res.json();
+
+  let batches = [...new Set(data.map(x => x.batch))];
+
+  let dropdown = document.getElementById("batchSelect");
+
+  dropdown.innerHTML = "";
+
+  batches.forEach(b => {
+    dropdown.innerHTML += `<option>${b}</option>`;
+  });
+
+  dropdown.onchange = showAdminStudents;
+
+  showAdminStudents();
+}
+
+
+// ✅ Show Students List
+async function showAdminStudents() {
+
+  let batch = document.getElementById("batchSelect").value;
+
+  let res = await fetch(API_URL + "?action=students");
+  let data = await res.json();
+
+  let filtered = data.filter(x => x.batch === batch);
+
+  let box = document.getElementById("studentList");
+  box.innerHTML = "";
+
+  filtered.forEach(s => {
+    box.innerHTML += `<p>👤 ${s.name}</p>`;
+  });
+}
+
+
+// ✅ Add Student
+async function addStudent() {
+
+  let batch = document.getElementById("batchSelect").value;
+  let name = document.getElementById("studentName").value;
+
+  await fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      type: "addStudent",
+      batch: batch,
+      name: name
+    })
+  });
+
+  alert("Student Added ✅");
+  showAdminStudents();
+}
+
+
+// ✅ Delete Student
+async function deleteStudent() {
+
+  let batch = document.getElementById("batchSelect").value;
+  let name = document.getElementById("deleteName").value;
+
+  await fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      type: "deleteStudent",
+      batch: batch,
+      name: name
+    })
+  });
+
+  alert("Student Deleted ✅");
+  showAdminStudents();
+}
+
+
+// ✅ Rename Student
+async function renameStudent() {
+
+  let batch = document.getElementById("batchSelect").value;
+  let oldName = document.getElementById("oldName").value;
+  let newName = document.getElementById("newName").value;
+
+  await fetch(API_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      type: "renameStudent",
+      batch: batch,
+      oldName: oldName,
+      newName: newName
+    })
+  });
+
+  alert("Student Renamed ✅");
+  showAdminStudents();
+}
