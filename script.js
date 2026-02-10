@@ -1,56 +1,35 @@
-// ✅ Google Apps Script API URL
 const API_URL =
   "https://script.google.com/macros/s/AKfycbxGRu4vGWv7lrwzCaNMgLcg2kt99I2hpShCBRWljLiVJYN13gX9LKUSg4IseDIm4gFUMg/exec";
 
 let allStudents = [];
 
-/* ===================================================
-   ✅ DASHBOARD ULTIMATE
-=================================================== */
-
+// ✅ Load Dashboard
 async function loadUltimateDashboard() {
-  try {
-    let res = await fetch(API_URL + "?action=students");
-    let text = await res.text();
 
-    console.log("RAW RESPONSE:", text);
+  let res = await fetch(API_URL + "?action=students");
+  allStudents = await res.json();
 
-    allStudents = JSON.parse(text);
+  // Total Students
+  document.getElementById("totalStudents").innerHTML =
+    "👨‍🎓 Total Students: " + allStudents.length;
 
-    document.getElementById("stats").innerHTML =
-      `<h3>Total Students: ${allStudents.length}</h3>`;
-
-  } catch (err) {
-    alert("API ERROR: " + err);
-    console.log(err);
-  }
-}
-
-
-  // ✅ Total Students Count
-  document.getElementById("stats").innerHTML = `
-    <h3>👨‍🎓 Total Students: ${allStudents.length}</h3>
-  `;
-
-  // ✅ Unique Batch Names
+  // Batch Dropdown
   let batches = [...new Set(allStudents.map(s => s.batch))];
 
   let dropdown = document.getElementById("batchSelect");
   dropdown.innerHTML = "";
 
-  batches.forEach(batch => {
-    dropdown.innerHTML += `<option value="${batch}">${batch}</option>`;
+  batches.forEach(b => {
+    dropdown.innerHTML += `<option value="${b}">${b}</option>`;
   });
 
-  // ✅ Show First Batch Students Automatically
-  showBatchStudents();
-
-  // ✅ Change Batch Event
   dropdown.onchange = showBatchStudents;
+
+  // Default show first batch
+  showBatchStudents();
 }
 
-
-// ✅ Show Students in Selected Batch
+// ✅ Show Students in Batch
 function showBatchStudents() {
 
   let batch = document.getElementById("batchSelect").value;
