@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Attendance Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>📋 Attendance Dashboard</h1>
+    <p>Live Google Sheet Connected</p>
+  </header>
+
+  <!-- Batch Dropdown -->
+  <div class="card">
+    <h2>Select Batch</h2>
+    <select id="batchSelect"></select>
+    <button onclick="loadStudents()">🔄 Load Students</button>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="card dashboard">
+    <h2>📊 Summary</h2>
+    <p>Total Students: <span id="total">0</span></p>
+    <p>Present: <span id="present">0</span></p>
+    <p>Absent: <span id="absent">0</span></p>
+  </div>
+
+  <!-- Student List -->
+  <div class="card">
+    <h2>👨‍🎓 Student List</h2>
+    <div id="studentList"></div>
+  </div>
+
+  <!-- Save Attendance -->
+  <div class="card">
+    <button class="saveBtn" onclick="saveAttendance()">✅ Save Attendance</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
