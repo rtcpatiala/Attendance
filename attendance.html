@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Take Attendance</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="card">
+  <h2>📋 Take Attendance</h2>
+
+  <!-- Batch Dropdown -->
+  <select id="batchSelect"></select>
+
+  <h3>Students List</h3>
+
+  <!-- Checkbox Students -->
+  <div id="attendanceList"></div>
+
+  <br>
+  <button onclick="saveAttendance()" class="btn">
+    ✅ Save Attendance
+  </button>
+
+  <br>
+  <a href="index.html" class="btn gray">⬅ Back Dashboard</a>
+</div>
+
+<script src="script.js"></script>
+
+<script>
+  loadAttendanceBatches();
+</script>
+
+</body>
+</html>
