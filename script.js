@@ -1,223 +1,151 @@
-const API_URL = "https://script.google.com/macros/s/AKfycbxGRu4vGWv7lrwzCaNMgLcg2kt99I2hpShCBRWljLiVJYN13gX9LKUSg4IseDIm4gFUMg/exec";
+// ✅ Google Apps Script API URL
+const API_URL =
+  "https://script.google.com/macros/s/AKfycbxGRu4vGWv7lrwzCaNMgLcg2kt99I2hpShCBRWljLiVJYN13gX9LKUSg4IseDIm4gFUMg/exec";
 
-// ✅ Dashboard Summary
+let allStudents = [];
+
+/* ===================================================
+   ✅ DASHBOARD PAGE
+=================================================== */
+
+// Dashboard Summary
 async function loadDashboard() {
   let res = await fetch(API_URL + "?action=students");
   let data = await res.json();
 
-  let total = data.length;
-
-  document.getElementById("stats").innerHTML =
-    `<h3>Total Students: ${total}</h3>`;
+  document.getElementById("stats").innerHTML = `
+    <h3>Total Students: ${data.length}</h3>
+  `;
 }
 
-// ✅ Load Batches Dropdown
-async function loadBatches() {
-  let res = await fetch(API_URL + "?action=students");
-  let data = await res.json();
+/* ===================================================
+   ✅ ADMIN PANEL
+=================================================== */
 
-  let batches = [...new Set(data.map(x => x.batch))];
+// Load batches dropdown
+async function loadAdminBatches() {
+  let res = await fetch(API_URL + "?action=students");
+  allStudents = await res.json();
+
+  let batches = [...new Set(allStudents.map(s => s.batch))];
 
   let dropdown = document.getElementById("batchSelect");
-
   dropdown.innerHTML = "";
 
-  batches.forEach(b => {
-    dropdown.innerHTML += `<option>${b}</option>`;
+  batches.forEach(batch => {
+    dropdown.innerHTML += `<option value="${batch}">${batch}</option>`;
   });
 
-  showStudents();
+  showAdminStudents();
 }
 
-// ✅ Show Students List
-async function showStudents() {
+// Show students list
+function showAdminStudents() {
   let batch = document.getElementById("batchSelect").value;
 
-  let res = await fetch(API_URL + "?action=students");
-  let data = await res.json();
-
-  let filtered = data.filter(x => x.batch === batch);
+  let filtered = allStudents.filter(s => s.batch === batch);
 
   let box = document.getElementById("studentList");
-
   box.innerHTML = "";
 
-  filtered.forEach(s => {
-    box.innerHTML += `<p>👤 ${s.name}</p>`;
+  filtered.forEach(stu => {
+    box.innerHTML += `<p>👤 ${stu.name}</p>`;
   });
 }
 
-// ✅ Add Student
+// Add Student
 async function addStudent() {
   let batch = document.getElementById("batchSelect").value;
   let name = document.getElementById("studentName").value;
 
+  if (name.trim() === "") {
+    alert("Enter Student Name!");
+    return;
+  }
+
   await fetch(API_URL, {
     method: "POST",
-    body: JSON.stringify({ type: "student", batch, name })
+    body: JSON.stringify({
+      type: "student",
+      batch: batch,
+      name: name
+    })
   });
 
   alert("Student Added ✅");
-  showStudents();
+
+  document.getElementById("studentName").value = "";
+  loadAdminBatches();
 }
-// ✅ Load Batches for Attendance Page
+
+/* ===================================================
+   ✅ ATTENDANCE PAGE
+=================================================== */
+
+// Load Attendance batches dropdown
 async function loadAttendanceBatches() {
-
   let res = await fetch(API_URL + "?action=students");
-  let data = await res.json();
+  allStudents = await res.json();
 
-  let batches = [...new Set(data.map(x => x.batch))];
+  let batches = [...new Set(allStudents.map(s => s.batch))];
 
   let dropdown = document.getElementById("batchSelect");
   dropdown.innerHTML = "";
 
-  batches.forEach(b => {
-    dropdown.innerHTML += `<option value="${b}">${b}</option>`;
+  batches.forEach(batch => {
+    dropdown.innerHTML += `<option value="${batch}">${batch}</option>`;
   });
 
-  // Load Students Automatically
   showAttendanceStudents();
-
-  dropdown.onchange = showAttendanceStudents;
 }
 
-
-// ✅ Show Students with Checkbox
-async function showAttendanceStudents() {
-
+// Show students with checkboxes
+function showAttendanceStudents() {
   let batch = document.getElementById("batchSelect").value;
 
-  let res = await fetch(API_URL + "?action=students");
-  let data = await res.json();
-
-  let students = data.filter(x => x.batch === batch);
+  let filtered = allStudents.filter(s => s.batch === batch);
 
   let box = document.getElementById("attendanceList");
   box.innerHTML = "";
 
-  if (students.length === 0) {
+  if (filtered.length === 0) {
     box.innerHTML = "❌ No Students Found!";
     return;
   }
 
-  students.forEach((s, index) => {
-
+  filtered.forEach((stu, i) => {
     box.innerHTML += `
-      <label style="display:block; padding:8px;">
-        <input type="checkbox" id="st${index}">
-        ${s.name}
+      <label style="display:block; padding:8px; font-size:18px;">
+        <input type="checkbox" id="st${i}">
+        ${stu.name}
       </label>
     `;
   });
 }
 
-
-// ✅ Save Attendance to Google Sheet
+// Save Attendance
 async function saveAttendance() {
-
   let batch = document.getElementById("batchSelect").value;
 
-  let res = await fetch(API_URL + "?action=students");
-  let data = await res.json();
-
-  let students = data.filter(x => x.batch === batch);
+  let filtered = allStudents.filter(s => s.batch === batch);
 
   let today = new Date().toLocaleDateString();
 
-  for (let i = 0; i < students.length; i++) {
-
+  for (let i = 0; i < filtered.length; i++) {
     let checked = document.getElementById("st" + i).checked;
-
     let status = checked ? "Present" : "Absent";
 
-    // Send Attendance to Sheet
     await fetch(API_URL, {
       method: "POST",
       body: JSON.stringify({
         type: "attendance",
         date: today,
         batch: batch,
-        student: students[i].name,
+        student: filtered[i].name,
         status: status
       })
     });
   }
 
   alert("✅ Attendance Saved Successfully!");
-}
-// ✅ Google Script URL
-const API_URL = "https://script.google.com/macros/s/AKfycbxGRu4vGWv7lrwzCaNMgLcg2kt99I2hpShCBRWljLiVJYN13gX9LKUSg4IseDIm4gFUMg/exec";
-
-let allStudents = [];
-
-// ✅ Load Batch List
-function loadBatches() {
-  fetch(API_URL + "?action=students")
-    .then(res => res.json())
-    .then(data => {
-
-      allStudents = data;
-
-      let batches = [...new Set(data.map(s => s.batch))];
-
-      let batchSelect = document.getElementById("batchSelect");
-      batchSelect.innerHTML = `<option value="">-- Select Batch --</option>`;
-
-      batches.forEach(batch => {
-        batchSelect.innerHTML += `<option value="${batch}">${batch}</option>`;
-      });
-    });
-}
-
-// ✅ Load Students Checkbox
-function loadStudentsForBatch() {
-
-  let batch = document.getElementById("batchSelect").value;
-  let studentDiv = document.getElementById("studentList");
-
-  studentDiv.innerHTML = "";
-
-  let filtered = allStudents.filter(s => s.batch === batch);
-
-  filtered.forEach(stu => {
-    studentDiv.innerHTML += `
-      <label>
-        <input type="checkbox" value="${stu.name}">
-        ${stu.name}
-      </label><br>
-    `;
-  });
-}
-
-// ✅ Save Attendance
-function saveAttendance() {
-
-  let batch = document.getElementById("batchSelect").value;
-
-  if (!batch) {
-    alert("Select Batch First!");
-    return;
-  }
-
-  let checked = document.querySelectorAll("#studentList input:checked");
-
-  let date = new Date().toLocaleDateString();
-
-  checked.forEach(cb => {
-
-    let payload = {
-      type: "attendance",
-      date: date,
-      batch: batch,
-      student: cb.value,
-      status: "Present"
-    };
-
-    fetch(API_URL, {
-      method: "POST",
-      body: JSON.stringify(payload)
-    });
-  });
-
-  alert("Attendance Saved ✅");
 }
