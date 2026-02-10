@@ -4,35 +4,39 @@
   <title>Take Attendance</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <div class="card">
   <h1>📋 Take Attendance</h1>
 
-  <!-- Batch Select -->
-  <label>Select Batch:</label>
-  <select id="batchSelect" onchange="loadStudentsForBatch()">
-    <option value="">-- Select Batch --</option>
-  </select>
+  <!-- ✅ Batch Dropdown -->
+  <select id="batchSelect"></select>
 
-  <hr>
+  <br><br>
 
-  <!-- Student Checkbox List -->
-  <div id="studentList"></div>
+  <!-- ✅ Students Checkbox List -->
+  <div id="attendanceList"></div>
 
   <br>
 
-  <!-- Save Button -->
-  <button class="btn" onclick="saveAttendance()">✅ Save Attendance</button>
+  <!-- ✅ Save Button -->
+  <button class="btn" onclick="saveAttendance()">
+    ✅ Save Attendance
+  </button>
 
   <br><br>
+
+  <!-- Back Button -->
   <a href="index.html" class="btn">⬅ Back Dashboard</a>
 </div>
 
+<!-- ✅ Main Script -->
 <script src="script.js"></script>
 
+<!-- ✅ Load Batches Automatically -->
 <script>
-  loadBatches();
+  loadAttendanceBatches();
 </script>
 
 </body>
