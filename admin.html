@@ -6,26 +6,16 @@
 </head>
 <body>
 
-<h1>⚙ Admin Panel</h1>
+<div class="card">
+  <h2>⚙ Admin Panel</h2>
 
-<h2>📌 Manage Batches</h2>
-<input id="newBatch" placeholder="Enter Batch Name">
-<button onclick="addBatch()">➕ Add Batch</button>
+  <a href="manage_batches.html" class="btn">📌 Manage Batches</a>
+  <a href="manage_students.html" class="btn">👨‍🎓 Manage Students</a>
+  <a href="reports.html" class="btn">📅 Monthly Reports</a>
 
-<div id="batchManage"></div>
+  <br><br>
+  <a href="index.html" class="btn gray">⬅ Back Dashboard</a>
+</div>
 
-<hr>
-
-<h2>👨‍🎓 Manage Students</h2>
-<select id="batchSelect"></select>
-<input id="newStudent" placeholder="Student Name">
-<button onclick="addStudent()">➕ Add Student</button>
-
-<div id="studentManage"></div>
-
-<br>
-<a href="index.html" class="btn">⬅ Back Dashboard</a>
-
-<script src="script.js"></script>
 </body>
 </html>
