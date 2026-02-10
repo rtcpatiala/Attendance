@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Monthly Attendance Report</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="card">
+  <h1>📊 Monthly Attendance Report</h1>
+  <p>Per Batch + Student Summary</p>
+
+  <!-- Batch Dropdown -->
+  <select id="batchSelect"></select>
+
+  <hr>
+
+  <!-- Report Box -->
+  <div id="reportBox"></div>
+
+  <br>
+  <a href="index.html" class="btn">⬅ Back Dashboard</a>
+</div>
+
+<script src="script.js"></script>
+
+<script>
+  loadReportBatches();
+</script>
+
+</body>
+</html>
