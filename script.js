@@ -1,4 +1,4 @@
-// ✅ Google Apps Script API URL
+// ✅ Google Script API URL
 const API_URL =
   "https://script.google.com/macros/s/AKfycbxGRu4vGWv7lrwzCaNMgLcg2kt99I2hpShCBRWljLiVJYN13gX9LKUSg4IseDIm4gFUMg/exec";
 
@@ -8,38 +8,13 @@ let allStudents = [];
    ✅ DASHBOARD PAGE
 =================================================== */
 
-async function loadUltimateDashboard() {
+async function loadDashboard() {
   let res = await fetch(API_URL + "?action=students");
-  let students = await res.json();
+  let data = await res.json();
 
-  document.getElementById("totalStudents").innerText =
-    "👨‍🎓 Total Students: " + students.length;
-
-  let batches = [...new Set(students.map(s => s.batch))];
-
-  let dropdown = document.getElementById("batchSelect");
-  dropdown.innerHTML = "";
-
-  batches.forEach(batch => {
-    dropdown.innerHTML += `<option value="${batch}">${batch}</option>`;
-  });
-
-  dropdown.onchange = () => showBatchStudents(students);
-
-  showBatchStudents(students);
-}
-
-function showBatchStudents(students) {
-  let batch = document.getElementById("batchSelect").value;
-
-  let filtered = students.filter(s => s.batch === batch);
-
-  let box = document.getElementById("batchStudents");
-  box.innerHTML = `<h3>👥 Students in ${batch}</h3>`;
-
-  filtered.forEach(stu => {
-    box.innerHTML += `<p>👤 ${stu.name}</p>`;
-  });
+  document.getElementById("stats").innerHTML = `
+    <h2>👨‍🎓 Total Students: ${data.length}</h2>
+  `;
 }
 
 /* ===================================================
@@ -58,8 +33,6 @@ async function loadAdminBatches() {
   batches.forEach(batch => {
     dropdown.innerHTML += `<option value="${batch}">${batch}</option>`;
   });
-
-  dropdown.onchange = showAdminStudents;
 
   showAdminStudents();
 }
@@ -96,8 +69,8 @@ async function addStudent() {
   });
 
   alert("Student Added ✅");
-  document.getElementById("studentName").value = "";
 
+  document.getElementById("studentName").value = "";
   loadAdminBatches();
 }
 
@@ -118,8 +91,6 @@ async function loadAttendanceBatches() {
     dropdown.innerHTML += `<option value="${batch}">${batch}</option>`;
   });
 
-  dropdown.onchange = showAttendanceStudents;
-
   showAttendanceStudents();
 }
 
@@ -138,7 +109,7 @@ function showAttendanceStudents() {
 
   filtered.forEach((stu, i) => {
     box.innerHTML += `
-      <label style="display:block; padding:8px; font-size:18px;">
+      <label style="display:block;padding:8px;font-size:18px;">
         <input type="checkbox" id="st${i}">
         ${stu.name}
       </label>
