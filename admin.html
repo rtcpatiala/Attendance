@@ -1,46 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Admin Panel</title>
+  <title>Admin Panel Pro</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
 <div class="card">
-  <h1>⚙ Admin Panel</h1>
-  <p>Manage Students Batch Wise</p>
+  <h1>⚙ Admin Panel Pro</h1>
+  <p>Manage Students Like a Real School App</p>
 
-  <!-- ✅ Batch Dropdown -->
-  <select id="batchSelect" onchange="showAdminStudents()"></select>
+  <!-- Batch Dropdown -->
+  <select id="batchSelect"></select>
 
-  <br><br>
+  <hr>
 
-  <!-- ✅ Add Student Input -->
+  <!-- Add Student -->
+  <h3>➕ Add Student</h3>
   <input id="studentName" placeholder="Enter Student Name">
+  <button class="btn" onclick="addStudent()">Add</button>
 
-  <br><br>
+  <hr>
 
-  <!-- ✅ Add Button -->
-  <button class="btn" onclick="addStudent()">➕ Add Student</button>
+  <!-- Rename Student -->
+  <h3>✏ Rename Student</h3>
+  <input id="oldName" placeholder="Old Name">
+  <input id="newName" placeholder="New Name">
+  <button class="btn" onclick="renameStudent()">Rename</button>
 
-  <br><br>
+  <hr>
 
-  <!-- ✅ Student List -->
+  <!-- Delete Student -->
+  <h3>🗑 Delete Student</h3>
+  <input id="deleteName" placeholder="Student Name">
+  <button class="btn danger" onclick="deleteStudent()">Delete</button>
+
+  <hr>
+
+  <!-- Student List -->
+  <h3>📋 Students List</h3>
   <div id="studentList"></div>
 
   <br>
-
-  <!-- Back Button -->
   <a href="index.html" class="btn">⬅ Back Dashboard</a>
 </div>
 
-<!-- ✅ Script -->
 <script src="script.js"></script>
 
-<!-- ✅ Load Admin Batches -->
 <script>
-  loadBatches();   // यही सही function है
+  loadAdminPanel();
 </script>
 
 </body>
