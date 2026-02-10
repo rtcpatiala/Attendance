@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Manage Students</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="card">
+  <h2>👨‍🎓 Student Management</h2>
+
+  <select id="batchSelect"></select>
+
+  <input id="studentName" placeholder="Enter Student Name">
+
+  <button onclick="addStudent()" class="btn">➕ Add Student</button>
+
+  <h3>Student List</h3>
+  <div id="studentList"></div>
+
+  <br>
+  <a href="admin.html" class="btn gray">⬅ Back</a>
+</div>
+
+<script src="script.js"></script>
+<script>
+  loadBatches();
+</script>
+
+</body>
+</html>
