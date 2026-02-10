@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>⚙ Admin Panel</h1>
+
+<h2>📌 Manage Batches</h2>
+<input id="newBatch" placeholder="Enter Batch Name">
+<button onclick="addBatch()">➕ Add Batch</button>
+
+<div id="batchManage"></div>
+
+<hr>
+
+<h2>👨‍🎓 Manage Students</h2>
+<select id="batchSelect"></select>
+<input id="newStudent" placeholder="Student Name">
+<button onclick="addStudent()">➕ Add Student</button>
+
+<div id="studentManage"></div>
+
+<br>
+<a href="index.html" class="btn">⬅ Back Dashboard</a>
+
+<script src="script.js"></script>
+</body>
+</html>
