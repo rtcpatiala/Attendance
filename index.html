@@ -1,43 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Attendance Dashboard</title>
+  <title>School Attendance Dashboard</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <header>
-    <h1>📋 Attendance Dashboard</h1>
-    <p>Live Google Sheet Connected</p>
-  </header>
+<h1>🏫 Attendance Dashboard</h1>
 
-  <!-- Batch Dropdown -->
-  <div class="card">
-    <h2>Select Batch</h2>
-    <select id="batchSelect"></select>
-    <button onclick="loadStudents()">🔄 Load Students</button>
-  </div>
+<div class="cards">
+  <div class="card" id="totalStudents">Total Students: 0</div>
+  <div class="card" id="totalBatches">Total Batches: 0</div>
+  <div class="card" id="presentToday">Present Today: 0</div>
+  <div class="card" id="absentToday">Absent Today: 0</div>
+</div>
 
-  <!-- Dashboard -->
-  <div class="card dashboard">
-    <h2>📊 Summary</h2>
-    <p>Total Students: <span id="total">0</span></p>
-    <p>Present: <span id="present">0</span></p>
-    <p>Absent: <span id="absent">0</span></p>
-  </div>
+<h2>📚 All Batches</h2>
+<div id="batchList"></div>
 
-  <!-- Student List -->
-  <div class="card">
-    <h2>👨‍🎓 Student List</h2>
-    <div id="studentList"></div>
-  </div>
+<br>
+<a href="admin.html" class="btn">⚙ Admin Panel</a>
 
-  <!-- Save Attendance -->
-  <div class="card">
-    <button class="saveBtn" onclick="saveAttendance()">✅ Save Attendance</button>
-  </div>
-
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
