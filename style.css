@@ -1,0 +1,54 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6ff;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background: #2d3cff;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.card {
+  background: white;
+  margin: 15px auto;
+  padding: 20px;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+select, button {
+  padding: 12px;
+  width: 100%;
+  margin-top: 10px;
+  font-size: 16px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+button {
+  cursor: pointer;
+  background: #2d3cff;
+  color: white;
+  border: none;
+}
+
+button:hover {
+  background: #1c2ad6;
+}
+
+.saveBtn {
+  background: green;
+}
+
+.studentItem {
+  padding: 10px;
+  margin: 8px 0;
+  background: #f0f0ff;
+  border-radius: 10px;
+}
