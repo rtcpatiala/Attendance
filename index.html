@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Ultimate Attendance Dashboard</title>
+  <title>School Attendance Dashboard</title>
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -12,26 +12,22 @@
   <p>All Batches + Students Summary</p>
 
   <!-- Dashboard Stats -->
-  <div class="stats-box">
-    <div class="stat" id="totalStudents">👨‍🎓 Total Students: 0</div>
-    <div class="stat" id="totalPresent">✅ Present Today: 0</div>
-    <div class="stat" id="totalAbsent">❌ Absent Today: 0</div>
-  </div>
+  <div id="stats"></div>
 
   <hr>
 
-  <!-- Batch Selector -->
+  <!-- Batch Dropdown -->
   <h3>📌 Select Batch</h3>
   <select id="batchSelect"></select>
 
+  <!-- Student List -->
   <div id="batchStudents"></div>
 
-  <br>
+  <br><br>
 
-  <!-- Action Buttons -->
+  <!-- Buttons -->
   <a href="attendance.html" class="btn">📋 Take Attendance</a>
   <a href="admin.html" class="btn">⚙ Admin Panel</a>
-  <a href="report.html" class="btn">📊 Monthly Report</a>
 
 </div>
 
